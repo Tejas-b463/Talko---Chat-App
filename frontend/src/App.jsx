@@ -1,5 +1,4 @@
 import Navbar from "./components/Navbar";
-
 import HomePage from "./pages/HomePage";
 import SignUpPage from "./pages/SignUpPage";
 import LoginPage from "./pages/LoginPage";
@@ -22,6 +21,22 @@ const App = () => {
 
   useEffect(() => {
     checkAuth();
+
+    // Function to handle page reload
+    const handleBeforeUnload = (e) => {
+      const message = 'Talko Application Loading Please Wait...';
+      e.returnValue = message;
+      return message;
+    };
+
+    // Add the event listener for page unload
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    // Cleanup function to remove event listener when component unmounts
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+
   }, [checkAuth]);
 
   console.log({ authUser });
@@ -49,4 +64,5 @@ const App = () => {
     </div>
   );
 };
+
 export default App;
